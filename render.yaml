@@ -1,0 +1,20 @@
+# Render Blueprint: New → Blueprint → pick this repo → Apply.
+# Runs the public demo (DEMO_MODE=1: synthetic stand-ins for every outside service, no provider keys needed).
+services:
+  - type: web
+    name: trustline-demo
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /beta
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DEMO_MODE
+        value: "1"
+      - key: TRUSTLINE_DB_PATH
+        value: data/demo.db
+      # Optional: with a key, Claude writes the officer's explanation and reads payment emails.
+      - key: ANTHROPIC_API_KEY
+        sync: false
