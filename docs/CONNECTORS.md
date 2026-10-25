@@ -2,6 +2,24 @@
 
 Without `DEMO_MODE`, Trustline reads real accounts. Copy `.env.example` to `.env.local` (or set the variables on your host), fill in what you have, and restart. In the tables, `<origin>` is the app's address: `http://localhost:3000` on a laptop, or your hosted address (also set it as `PUBLIC_URL`).
 
+## What each connection is for
+
+| Connection | Evidence it gives | Score factors it feeds |
+|---|---|---|
+| Gmail | Client payments from Upwork, Fiverr, PayPal, Payoneer (signature-verified) | Income, months with income, stability, client spread, track record |
+| Wise | Incoming transfers on every currency balance | Same as Gmail; also the account holder's name for the name check |
+| Crypto wallets | Incoming USDT/USDC on the address the user proved they own | Same as Gmail |
+| Bank statement | Credits from the uploaded statement, labelled as uploaded | Same as Gmail; payouts from connected platforms count once |
+| Confirm with your bank | The account holder's name from the bank | Identity (+20) |
+| ID check | Verified name, document validity, age, live person | Identity (+20, or +10 next to the bank) and the name check |
+| Figma | The user's own edits (version history) and comments by others | Design work, work matches income, clients in both |
+| Canva | Design creation and edit dates | Design work, work matches income |
+| Webflow | Sites, publishes, client domains, page edits | Design work, work matches income, clients in both |
+| Miro | The user's board edits and board members | Design work, work matches income, clients in both |
+| Dribbble | Published shots | Track record (portfolio), not weekly work |
+
+On the live app (`https://trustline-bu58.onrender.com`), the redirect URLs below use that address as `<origin>`, for example `https://trustline-bu58.onrender.com/api/beta/oauth/canva/callback`.
+
 ## Works without any setup
 
 | Source | How |

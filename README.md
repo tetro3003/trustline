@@ -6,7 +6,15 @@ A freelance designer has no payslip, so a bank can't tell whether she can repay 
 
 **Live app:** [trustline-bu58.onrender.com/beta](https://trustline-bu58.onrender.com/beta) (real accounts) · **Track:** AI in Finance
 
-**Docs:** [Architecture](docs/ARCHITECTURE.md) · [Scoring engine](docs/SCORING.md) · [Connecting real accounts](docs/CONNECTORS.md)
+## Documentation
+
+| Document | What's inside |
+|---|---|
+| [Architecture](docs/ARCHITECTURE.md) | System diagram, layers, the 7-step pipeline, sequence diagrams of the main flows, the daily robot, demo mode, data model, testing, deployment, how to add a source |
+| [Scoring engine](docs/SCORING.md) | Every factor with its points and formula, weight split, risk flags, bands, the officer suggestion, a worked example, what-if scenarios, next steps with partner banks |
+| [API reference](docs/API.md) | Every endpoint with its body and response, auth, errors and rate limits |
+| [Security and privacy](docs/SECURITY.md) | What is read and stored per source, encryption, sessions, consent, AI safeguards, the fraud each check catches |
+| [Connecting real accounts](docs/CONNECTORS.md) | What each connection is for, setup steps and redirect URLs per provider, who can sign in before approval |
 
 ---
 
