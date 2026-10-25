@@ -75,7 +75,9 @@ Nino Beridze (synthetic) has verified income of $2,967 a month, was paid in 11 o
 
 The weights are expert judgement, set from how lenders assess income stability, concentration and history. They are not learned from repayment data yet, because Trustline has none. The structure is built to change that.
 
-1. **Calibrate on outcomes.** Once loans repay or default, fit a logistic regression on the same features and express it in standard scorecard form (points to double the odds), so each factor's weight reflects real risk.
+**After the demo stage, the model will be co-created with partner banks.** Their credit teams set the policy (risk appetite, band cut-offs, repayment limits, which flags block a loan), and their repayment data calibrates the weights. Trustline keeps doing the collecting, verifying and explaining; the bank owns the credit policy and the decision.
+
+1. **Calibrate on outcomes with partner banks.** Once loans repay or default, fit a logistic regression on the same features and express it in standard scorecard form (points to double the odds), so each factor's weight reflects real risk.
 2. **Use the whole range.** The best case adds up to 925 and is clamped to 850, so strong profiles bunch near the top. Rescaling the points would separate good from excellent.
 3. **Repayment limit by risk and existing debt.** Replace the flat 30% with a share that depends on the band, minus obligations visible in the bank statement (loans, rent).
 4. **Count gaps once.** Months without income currently lower both "months with income" and "stability". Measuring stability on paid months only removes the overlap.

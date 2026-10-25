@@ -60,6 +60,8 @@ Without demo mode, the same app reads real accounts. Each provider needs its own
 
 A transparent points scorecard: it starts at 500, and ten factors add or remove points (income level, regularity, stability, client spread, track record, design work, work matching income, clients seen in both, identity). Risk flags cap the score. The result is 300–850 with bands A–E, a suggested repayment limit of 30% of verified income, and a suggestion for the officer. About 55% of the weight is ability to pay and 28% is the real work behind the income. Full details, weights and next steps: [docs/SCORING.md](docs/SCORING.md).
 
+The current weights are a demo-stage expert scorecard. **After the demo stage, the scoring model will be co-created with partner banks:** their credit teams set the policy and cut-offs, and their repayment data calibrates the weights.
+
 ## How AI is used
 
 - **Reading payment emails.** After an email passes the DKIM signature check, Claude extracts the amount, currency, client and date, whatever the wording or language. Without a key, built-in rules handle Upwork, Fiverr, PayPal and Payoneer.
@@ -120,6 +122,6 @@ tests/                 Vitest suites
 ## Limitations
 
 - On the live app, "Sign in with" Figma, Canva and Gmail work for the team and listed test users until each provider finishes reviewing the app (Figma and Canva review public apps; Google verifies the read-only Gmail scope). Anyone can already connect Figma and Webflow with a personal token, plus Wise, wallets and bank statements.
-- The scoring weights are expert judgement, not yet calibrated on repayment outcomes; see [docs/SCORING.md](docs/SCORING.md#limitations-and-next-steps).
+- The scoring weights are expert judgement, not yet calibrated on repayment outcomes; they will be co-created with partner banks after the demo stage. See [docs/SCORING.md](docs/SCORING.md#limitations-and-next-steps).
 - Currency conversion uses approximate fixed rates (override with `FX_<CODE>_USD`).
 - SQLite fits a single server; the store is behind one interface, so a Postgres version is a contained change.
