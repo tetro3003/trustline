@@ -5,7 +5,8 @@ import { dkimSign } from "mailauth";
  * DEMO MODE (DEMO_MODE=1). Every outside service (Gmail, Figma, Wise, Canva,
  * Webflow, Miro, Dribbble, the bank's open-banking API) is replaced by this
  * local stand-in serving SYNTHETIC data for one persona, Nino Beridze, a
- * freelance designer. Nothing else changes: consent screens, signature checks
+ * freelance designer. Crypto wallets are the exception: public blockchains are
+ * read for real, since a wallet is the visitor's own. Nothing else changes: consent screens, signature checks
  * (the demo emails really are DKIM-signed, one is forged), extraction,
  * de-duplication, scoring and the lender review all run for real. The UI
  * flags demo mode on every screen.
@@ -98,10 +99,14 @@ function figmaVersions(key: string) {
 }
 
 /** The stand-in for every outside API the beta calls. */
+const PUBLIC_CHAIN_HOSTS = ["blockscout.com", "api.trongrid.io", "api.mainnet-beta.solana.com", ...(process.env.SOLANA_RPC_URL ? [new URL(process.env.SOLANA_RPC_URL).hostname] : [])];
+
 export const demoFetch: typeof fetch = async (input, init) => {
   const url = new URL(String(input));
   const host = url.hostname;
   const path = url.pathname;
+  // Public blockchains hold no accounts to fake: a visitor's own wallet is read for real.
+  if (PUBLIC_CHAIN_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) return fetch(input, init);
   await new Promise((r) => setTimeout(r, 120)); // feel like a network call
 
   // OAuth token endpoints of every provider

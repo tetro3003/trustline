@@ -10,13 +10,15 @@ A freelance designer has no payslip, so a bank can't tell whether she can repay 
 
 ## Try the demo
 
-The demo runs with `DEMO_MODE=1`. Every outside service is replaced by a local stand-in with synthetic data for one fictional designer, Nino Beridze, and every sign-in screen is a clearly labelled mock consent page. Everything else is the real pipeline: signature checks (one payment email is deliberately forged and gets rejected), de-duplication, scoring, the Claude explanation and the human decision.
+The demo runs with `DEMO_MODE=1`. Every outside service is replaced by a local stand-in with synthetic data for one fictional designer, Nino Beridze, and every sign-in screen is a clearly labelled mock consent page. Crypto wallets are the exception: if you connect your own wallet, its public blockchain history is read for real. Everything else is the real pipeline: signature checks (one payment email is deliberately forged and gets rejected), de-duplication, scoring, the Claude explanation and the human decision.
 
 1. Open the demo and **Create account → Freelancer**. Use the name **Nino Beridze** (the stand-in accounts belong to her; another name triggers the "name doesn't match" check), any email and a password of 8+ characters.
 2. Connect the sources: Gmail, Figma, Wise, Canva, Webflow, Miro, Dribbble, **Confirm with your bank**. For the bank statement, upload [`public/samples/tbc-test-transactions.csv`](public/samples/tbc-test-transactions.csv). Every API call shows live in **Behind the scenes** on the right.
 3. Open **Apply for credit**, choose **City Bank**, click **Share my report**. Log out.
 4. Log in as the bank officer: **ana@citybank.demo** / **password123**. Open the applicant: score, reasons, risk flags, verified payments, Claude's explanation, the system's suggestion.
 5. Approve, request info or decline. The decision lands in the audit trail, and the freelancer sees who looked at her data.
+
+Optional: **Add wallet** works with MetaMask, Phantom or TronLink. The **ID check** is real (it needs a camera and a passport or ID card); in the demo it compares your document's name with Nino's accounts and raises a "name doesn't match" flag, which is the fraud check working. The bank confirmation already proves Nino's identity, so the ID check can be skipped.
 
 ## What's real and what's synthetic
 
