@@ -127,6 +127,48 @@ tests/                 Vitest suites
 - ID photos and the selfie never leave the browser; only the check results are sent.
 - The freelancer chooses which bank sees the report and can revoke access; every view and decision is logged.
 
+## Guardrails in the code
+
+Where each control lives, so it can be checked against the implementation:
+
+| Guardrail | Where |
+|---|---|
+| Only signature-verified emails count and reach Claude (DKIM or Google's delivery stamp) | `server/beta/providers/gmail.ts` (`verifyPaymentEmail`) |
+| Claude extraction is constrained: strict JSON schema, email text treated as data, refusal handled, rule-based fallback | `server/beta/providers/email-extract.ts` |
+| Claude never scores: the score is a deterministic scorecard with plain-language reasons and risk flags | `lib/beta/score.ts`, [docs/SCORING.md](docs/SCORING.md) |
+| The officer memo uses verified facts only; refusal or error falls back to a labelled rule-based memo | `server/beta/explain.ts` |
+| The system only suggests; a person decides, and overriding the suggestion is recorded | `lib/beta/decision.ts`, `decide()` in `server/beta/service.ts` |
+| Consent: only lenders with an active, unrevoked share can open a report; roles are checked | `requireShare()` / `requireRole()` in `server/beta/service.ts` |
+| Audit trail of shares, revocations, report views, memos and decisions, visible to the freelancer | `store.audit(...)` in `server/beta/service.ts` |
+| Fraud controls: cross-source de-duplication, platform payouts counted once, own-wallet transfers ignored, official stablecoin contracts only, dust ignored | `lib/beta/reconcile.ts`, `server/beta/providers/wallets.ts` |
+| Wallet ownership by one-time signed challenge | `walletChallenge()` / `walletVerify()` in `server/beta/service.ts` |
+| Access keys encrypted with AES-256-GCM; scrypt passwords; hashed session tokens | `server/beta/vault.ts`, `server/beta/auth.ts`, `server/beta/store.ts` |
+| Same-origin JSON-only writes and rate limits on sign-up and login | `server/beta/http.ts` |
+| ID photos never leave the browser; the server re-checks MRZ check digits, expiry and age | `lib/beta/id-capture.ts`, `server/beta/idcheck.ts` |
+| Fairness: no gender, age, ethnicity or location among the score's inputs (age is only checked as 18+ on the ID) | `lib/beta/score.ts` (`BetaScoreInput`, `features`) |
+| Tests covering the above (forged and edited emails, signatures, vault tampering, consent, decisions, audit) | `tests/` |
+
+Full description: [docs/SECURITY.md](docs/SECURITY.md).
+
+## Third-party components and licences
+
+| Component | Used for | Licence |
+|---|---|---|
+| Next.js, React, React DOM | Web app and API | MIT |
+| @anthropic-ai/sdk | Calls to the Claude API | Apache-2.0 |
+| better-sqlite3 | SQLite storage | MIT |
+| mailauth, mailparser | DKIM verification, email parsing | MIT |
+| viem | EVM wallet signature verification | MIT |
+| tesseract.js | In-browser OCR of the ID's machine-readable zone | Apache-2.0 |
+| @vladmandic/human | In-browser face detection, liveness and face match | MIT |
+| zod | Validating the JSON Claude returns | MIT |
+| Radix UI (dialog, slot), class-variance-authority, clsx, tailwind-merge, lucide-react, next-themes | UI components, styling helpers, icons, theme | MIT · Apache-2.0 (class-variance-authority) · ISC (lucide-react) |
+| Tailwind CSS | Styling | MIT |
+| TypeScript, ESLint, Vitest | Build, lint, tests | Apache-2.0 (TypeScript) · MIT |
+| Inter, Manrope (via `next/font`) | Typefaces | SIL Open Font License 1.1 |
+
+External services: the Claude API (Anthropic, under Anthropic's commercial terms), and in real mode the read-only APIs of Google (Gmail), Wise, Figma, Canva, Webflow, Miro, Dribbble, public blockchain explorers (Blockscout, TronGrid, Solana RPC) and banks' open-banking sandboxes. The face and OCR models are downloaded from public CDNs on first use under the licences of the libraries above.
+
 ## Limitations
 
 - On the live app, "Sign in with" Figma, Canva and Gmail work for the team and listed test users until each provider finishes reviewing the app (Figma and Canva review public apps; Google verifies the read-only Gmail scope). Anyone can already connect Figma and Webflow with a personal token, plus Wise, wallets and bank statements.
