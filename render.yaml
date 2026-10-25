@@ -1,6 +1,22 @@
-# Render Blueprint: New → Blueprint → pick this repo → Apply.
-# Runs the public demo (DEMO_MODE=1: synthetic stand-ins for every outside service, no provider keys needed).
+# Render Blueprint: New → Blueprint → pick this repo → Apply. Creates two services:
+#  - trustline       real mode: reads real accounts. Provider keys are set in the service's Environment page (docs/CONNECTORS.md).
+#  - trustline-demo  demo mode: synthetic stand-ins for every outside service, no provider keys needed.
+# On the free plan both sleep when idle and start with an empty database after a restart.
 services:
+  - type: web
+    name: trustline
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /beta
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Claude for email reading and the officer's explanation. Provider keys go in the Environment page later.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+
   - type: web
     name: trustline-demo
     runtime: node

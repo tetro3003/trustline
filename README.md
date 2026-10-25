@@ -62,7 +62,12 @@ Optional: put `ANTHROPIC_API_KEY=...` in `.env.local` to have Claude write the e
 
 ## Deploy
 
-[`render.yaml`](render.yaml) deploys the demo to [Render](https://render.com): **New → Blueprint →** pick this repo **→ Apply**, and enter an Anthropic key when asked (optional). It needs a host that keeps a Node server running, because data lives in a SQLite file and a background job refreshes connections daily. On the free plan the server sleeps when idle and the demo data resets on restart; the demo bank officer is recreated automatically.
+[`render.yaml`](render.yaml) deploys two services to [Render](https://render.com) (**New → Blueprint →** pick this repo **→ Apply**):
+
+- **`trustline`** (real mode) reads real accounts. Figma, Wise and Webflow tokens, crypto wallets, bank statements, the ID check and Claude work right away. Each "Sign in with …" button needs that company's developer app; add its keys in the service's **Environment** page ([docs/CONNECTORS.md](docs/CONNECTORS.md)). To try the bank side, sign up a second account as **Lender**.
+- **`trustline-demo`** (demo mode) is the walkthrough above, with no keys needed.
+
+Both need a host that keeps a Node server running, because data lives in a SQLite file and a background job refreshes connections daily. On Render's free plan a service sleeps when idle and starts with an empty database after a restart; for lasting real accounts, use a paid instance with a persistent disk and set `TRUSTLINE_DB_PATH` to a file on it.
 
 ## Architecture
 
