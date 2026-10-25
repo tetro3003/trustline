@@ -4,9 +4,31 @@
 
 A freelance designer has no payslip, so a bank can't tell whether she can repay a loan. Screenshots and PDFs are easy to fake. Trustline connects to the places where her money and her work actually live (payment emails, Wise, crypto wallets, her bank, Figma, Canva, Webflow, Miro, Dribbble), verifies every payment at the source, checks that real design work stands behind the income, and turns it into a 300–850 score with plain-language reasons. A bank officer reviews the report, reads an explanation written by Claude from verified facts only, and makes the decision. Trustline never decides.
 
-**Live demo:** _link added after deployment_ · **Track:** AI in Finance
+**Live app:** [trustline-bu58.onrender.com/beta](https://trustline-bu58.onrender.com/beta) (real accounts) · **Track:** AI in Finance
+
+**Docs:** [Architecture](docs/ARCHITECTURE.md) · [Scoring engine](docs/SCORING.md) · [Connecting real accounts](docs/CONNECTORS.md)
 
 ---
+
+## What it can do
+
+**For the freelancer**
+- Connect income sources: Gmail (payment emails from Upwork, Fiverr, PayPal, Payoneer…), Wise, crypto wallets (EVM chains, Tron, Solana), a monthly bank statement.
+- Connect work tools: Figma, Canva, Webflow, Miro, Dribbble.
+- Prove identity: confirmation by the bank through open banking, or an in-browser passport/ID check with a live selfie.
+- See the score, the verified monthly income, each reason with its points, and every step the system took ("Behind the scenes").
+- Share the report with a chosen bank, revoke it, and see who looked at it.
+
+**For the bank officer**
+- A list of applicants who shared their report.
+- The full report: score and band, reasons, risk flags, verified payments, work found, identity.
+- A short explanation written by Claude from verified facts only, plus the system's suggestion.
+- A human decision (approve with an amount, request info, decline) recorded in an audit trail.
+
+**Behind it**
+- Every payment verified at the source: DKIM signatures on emails, wallet ownership by signature, genuine stablecoin contracts only.
+- De-duplication across sources and a fraud check that income is backed by real design work.
+- A daily robot that refreshes every connection, so the report stays current.
 
 ## Try the demo
 
@@ -33,6 +55,10 @@ Optional: **Add wallet** works with MetaMask, Phantom or TronLink. The **ID chec
 | ID check: MRZ check digits, liveness, face match (in the browser) | |
 
 Without demo mode, the same app reads real accounts. Each provider needs its own developer app; see [docs/CONNECTORS.md](docs/CONNECTORS.md).
+
+## How the score works
+
+A transparent points scorecard: it starts at 500, and ten factors add or remove points (income level, regularity, stability, client spread, track record, design work, work matching income, clients seen in both, identity). Risk flags cap the score. The result is 300–850 with bands A–E, a suggested repayment limit of 30% of verified income, and a suggestion for the officer. About 55% of the weight is ability to pay and 28% is the real work behind the income. Full details, weights and next steps: [docs/SCORING.md](docs/SCORING.md).
 
 ## How AI is used
 
@@ -93,6 +119,7 @@ tests/                 Vitest suites
 
 ## Limitations
 
-- Canva and Miro only let a developer's own team sign in until the integration is reviewed; Gmail needs Google's verification for the read-only Gmail scope before it opens to everyone.
+- On the live app, "Sign in with" Figma, Canva and Gmail work for the team and listed test users until each provider finishes reviewing the app (Figma and Canva review public apps; Google verifies the read-only Gmail scope). Anyone can already connect Figma and Webflow with a personal token, plus Wise, wallets and bank statements.
+- The scoring weights are expert judgement, not yet calibrated on repayment outcomes; see [docs/SCORING.md](docs/SCORING.md#limitations-and-next-steps).
 - Currency conversion uses approximate fixed rates (override with `FX_<CODE>_USD`).
 - SQLite fits a single server; the store is behind one interface, so a Postgres version is a contained change.

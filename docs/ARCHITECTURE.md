@@ -43,7 +43,7 @@ flowchart LR
    - **Bank**: identity through open banking (owner name only, no balances or transactions); transactions from the uploaded statement, labelled as such.
    - **Work tools**: Figma version history, Canva designs, Webflow sites and pages, Miro board edits and collaborators, Dribbble shots. Only dates, titles and collaborators are kept, never the designs.
 3. **Reconcile** (`lib/beta/reconcile.ts`): the same payment seen twice counts once, payouts (Upwork → bank) count where the client paid, and transfers between the freelancer's own wallets never count.
-4. **Score** (`lib/beta/score.ts`): a deterministic points model, the same facts and date always giving the same result. It starts at 500 and adds or removes points per factor, clamped to 300–850, bands A–E:
+4. **Score** (`lib/beta/score.ts`, full details in [SCORING.md](SCORING.md)): a deterministic points model, the same facts and date always giving the same result. It starts at 500 and adds or removes points per factor, clamped to 300–850, bands A–E:
 
    | Factor | What it measures |
    |---|---|
