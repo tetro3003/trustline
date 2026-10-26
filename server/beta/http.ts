@@ -17,8 +17,9 @@ function cookieFrom(req: Request): string | null {
   return m ? decodeURIComponent(m[1]) : null;
 }
 
-/** Hosted: PUBLIC_URL (or Render's own RENDER_EXTERNAL_URL). On a laptop both are empty. */
-const configuredOrigin = () => (process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL)?.trim().replace(/\/$/, "") || null;
+/** Hosted: PUBLIC_URL, or the host's own address (Render, Railway). On a laptop all are empty. */
+const configuredOrigin = () =>
+  (process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || (process.env.RAILWAY_PUBLIC_DOMAIN && `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`))?.trim().replace(/\/$/, "") || null;
 
 function sessionCookie(token: string, req: Request, clear = false) {
   const secure = new URL(configuredOrigin() ?? req.url).protocol === "https:" ? "; Secure" : "";
