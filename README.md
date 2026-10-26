@@ -4,7 +4,7 @@
 
 A freelance designer has no payslip, so a bank can't tell whether she can repay a loan. Screenshots and PDFs are easy to fake. Trustline connects to the places where her money and her work actually live (payment emails, Wise, crypto wallets, her bank, Figma, Canva, Webflow, Miro, Dribbble), verifies every payment at the source, checks that real design work stands behind the income, and turns it into a 300–850 score with plain-language reasons. A bank officer reviews the report, reads an explanation written by Claude from verified facts only, and makes the decision. Trustline never decides.
 
-**Live app:** [trustline-bu58.onrender.com/beta](https://trustline-bu58.onrender.com/beta) (real accounts) · **Track:** AI in Finance
+**Try it:** run it locally in demo mode in two commands (see [Run it locally](#run-it-locally)) · **Track:** AI in Finance
 
 ## Documentation
 

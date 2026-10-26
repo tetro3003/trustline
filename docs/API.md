@@ -75,7 +75,7 @@ Every endpoint lives under `/api/beta/` and is served by one handler, [`server/b
 ## Example
 
 ```bash
-B=https://trustline-bu58.onrender.com/api/beta
+B=http://localhost:3000/api/beta
 curl -c jar -H 'Content-Type: application/json' -d '{"email":"me@example.com","name":"Nino Beridze","password":"password123"}' $B/signup
 curl -b jar -H 'Content-Type: application/json' -d '{"token":"<wise read-only token>"}' $B/wise/token
 curl -b jar $B/score

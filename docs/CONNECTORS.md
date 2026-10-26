@@ -18,7 +18,7 @@ Without `DEMO_MODE`, Trustline reads real accounts. Copy `.env.example` to `.env
 | Miro | The user's board edits and board members | Design work, work matches income, clients in both |
 | Dribbble | Published shots | Track record (portfolio), not weekly work |
 
-On the live app (`https://trustline-bu58.onrender.com`), the redirect URLs below use that address as `<origin>`, for example `https://trustline-bu58.onrender.com/api/beta/oauth/canva/callback`.
+When hosted, `<origin>` is the public address, for example `https://your-host.example/api/beta/oauth/canva/callback`.
 
 ## Works without any setup
 
